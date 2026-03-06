@@ -49,7 +49,17 @@ Activate it:
 pip install -r requirements.txt
 ```
 
-### Step 3: MySQL Setup
+### Step 3: Download Data from PhonePe Pulse Repository
+
+Download the PhonePe Pulse data from the official repository:
+
+```bash
+git clone https://github.com/PhonePe/pulse.git
+```
+
+This will create a `pulse/` folder in your project directory containing all the necessary JSON data files.
+
+### Step 4: MySQL Setup
 
 Make sure MySQL is running on your machine. The project uses:
 
@@ -59,7 +69,7 @@ Make sure MySQL is running on your machine. The project uses:
 
 If your password is different, update it in `data_extractor.py` and `dashboard.py`.
 
-### Step 4: Extract Data & Load into MySQL
+### Step 5: Extract Data & Load into MySQL
 
 ```bash
 python data_extractor.py
@@ -71,7 +81,7 @@ This will:
 3. Build Pandas DataFrames from all JSON files
 4. Load all data into MySQL
 
-### Step 5: Run the Dashboard
+### Step 6: Run the Dashboard
 
 ```bash
 streamlit run dashboard.py
