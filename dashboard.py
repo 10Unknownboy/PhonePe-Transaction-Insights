@@ -77,24 +77,17 @@ STATE_NAME_MAP = {
 
 
 # --- Helper Functions ---
-
-@st.cache_resource
 def get_db_connection():
-    """Create and cache a MySQL connection."""
+    """Create a MySQL connection."""
     return mysql.connector.connect(
         host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, database=MYSQL_DB,
     )
 
-
-
-
-
-def run_query(query: str) -> pd.DataFrame:
+def run_query(query):
     """Execute a SQL query and return the result as a DataFrame."""
     return pd.read_sql(query, get_db_connection())
 
-
-def format_num(n: float) -> str:
+def format_num(n):
     """Format monetary values in Indian units (Cr / L)."""
     if n >= 1e7:
         return f"₹{n / 1e7:.2f} Cr"
@@ -102,8 +95,7 @@ def format_num(n: float) -> str:
         return f"₹{n / 1e5:.2f} L"
     return f"₹{n:,.2f}"
 
-
-def format_count(n: float) -> str:
+def format_count(n):
     """Format count values in Indian units (Cr / L)."""
     if n >= 1e7:
         return f"{n / 1e7:.2f} Cr"
@@ -111,8 +103,7 @@ def format_count(n: float) -> str:
         return f"{n / 1e5:.2f} L"
     return f"{n:,.2f}"
 
-
-def map_state_name(name: str) -> str:
+def map_state_name(name):
     """Convert a DB state name to the GeoJSON-compatible display name."""
     if name in STATE_NAME_MAP:
         return STATE_NAME_MAP[name]
@@ -125,7 +116,7 @@ def display_chart(fig):
     plt.close(fig)
 
 
-def _plain_y(ax):
+def plainy(ax):
     """Prevent scientific notation on y-axis."""
     ax.ticklabel_format(style='plain', axis='y')
 
@@ -152,7 +143,7 @@ def create_bar_chart(df, x_col, y_col, title, xlabel=None, ylabel=None,
     bars = ax.bar(x_vals, df[y_col], color=colors)
     ax.set_xticks(x_vals)
     ax.set_xticklabels(df[x_col], rotation=45, ha='right', fontsize=8)
-    _plain_y(ax)
+    plainy(ax)
 
     if show_values:
         for bar, val in zip(bars, df[y_col]):
@@ -206,7 +197,7 @@ def create_line_chart(df, x_col, y_col, title, color_col=None,
         ax.plot(df[x_col], df[y_col], marker=mk, color="#6C63FF")
 
     ax.set_title(title, fontsize=12, fontweight='bold')
-    _plain_y(ax)
+    plainy(ax)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_xlabel(x_col.replace("_", " ").title())
@@ -224,7 +215,7 @@ def create_area_chart(df, x_col, y_col, color_col, title, figsize=(10, 5)):
                  labels=pivot.columns, colors=colors, alpha=0.8)
     ax.legend(fontsize=8, loc='upper left')
     ax.set_title(title, fontsize=12, fontweight='bold')
-    _plain_y(ax)
+    plainy(ax)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     fig.tight_layout()
@@ -253,7 +244,7 @@ def create_choropleth(df, state_col, value_col, title, cmap="Reds"):
 # --- Application Entry Point & Sidebar ---
 
 st.set_page_config(page_title="PhonePe Transaction Insights", page_icon="📱", layout="wide")
-st.title("PhonePe Transaction Insights")
+st.title("PhonePe-Transaction-Insights")
 st.markdown("Analyze transactions, users, and insurance data from PhonePe Pulse")
 
 # --- Sidebar Filters ---
@@ -754,7 +745,7 @@ elif section == "Business Case Studies":
             ax.set_title("Dominant Device Brand by State (Top 15)",
                          fontsize=12, fontweight='bold')
             ax.set_xlabel("State")
-            _plain_y(ax)
+            plainy(ax)
             ax.spines['top'].set_visible(False)
             ax.spines['right'].set_visible(False)
             legend_elements = [Patch(facecolor=brand_color_map[b], label=b)

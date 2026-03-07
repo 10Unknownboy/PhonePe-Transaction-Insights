@@ -179,7 +179,7 @@ def _iter_country_and_state(base_path):
 def extract_and_insert_aggregated_transaction(cur):
     """
     Parse aggregated transaction JSON files and bulk-insert into MySQL.
-    Files are located under: data/aggregated/transaction/country/india/
+    Files are located under: pulse/data/aggregated/transaction/country/india/
     """
     rows = []
     base = os.path.join(DATA_PATH, "aggregated", "transaction", "country", "india")
@@ -416,3 +416,8 @@ if __name__ == "__main__":
     print("\nAll data extracted and loaded into MySQL!")
     print(f"   Database : {MYSQL_DB}")
     print(f"   Host     : {MYSQL_HOST}")
+
+
+
+
+
