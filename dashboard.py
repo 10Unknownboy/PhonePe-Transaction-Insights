@@ -781,11 +781,26 @@ elif section == "Business Case Studies":
         """)
         if not df.empty:
             df["period"] = df["year"].astype(str) + " Q" + df["quarter"].astype(str)
-            fig = create_line_chart(df, "period", "count",
-                                    "Insurance Transactions Over Time")
+            fig, ax = plt.subplots(figsize=(14, 5))
+            x_vals = range(len(df))
+            ax.plot(x_vals, df["count"], marker='o', color="#6C63FF", linewidth=2)
+            
+            # Set x-axis labels with year on first line, Q{quarter} on second line
+            labels = [f"{row['year']}\nQ{row['quarter']}" 
+                      for _, row in df.iterrows()]
+            ax.set_xticks(x_vals)
+            ax.set_xticklabels(labels, fontsize=8, rotation=0)
+            
+            ax.set_title("Insurance Transactions Over Time", fontsize=12, fontweight='bold')
+            ax.set_xlabel("Period")
+            plainy(ax)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            fig.tight_layout()
             display_chart(fig)
+            
             fig = create_bar_chart(df, "period", "amount",
-                                   "Insurance Amount Over Time")
+                           "Insurance Amount Over Time")
             display_chart(fig)
 
         df = run_query("""
