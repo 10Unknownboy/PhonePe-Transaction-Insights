@@ -900,7 +900,7 @@ elif section == "Business Case Studies":
 
         st.markdown("""
         **Key Findings:**
-        - Southern states show highest engagement ratios (app opens per user)
+        - Many Northeast states show highest engagement ratios (app opens per user)
         - User base is growing consistently year-over-year
         - States with high registration but low engagement need targeted retention strategies
         """)
